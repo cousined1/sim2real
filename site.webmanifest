@@ -1,0 +1,16 @@
+{
+  "name": "Sim2Real",
+  "short_name": "Sim2Real",
+  "description": "Simulation-to-real transfer software for robotics teams.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c1016",
+  "theme_color": "#1256d6",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

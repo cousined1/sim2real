@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://sim2real.dev/</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/product</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/pricing</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/contact</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/signup</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/login</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/forgot-password</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/billing</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/terms</loc>
+  </url>
+  <url>
+    <loc>https://sim2real.dev/privacy</loc>
+  </url>
+</urlset>

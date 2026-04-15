@@ -1,0 +1,27 @@
+{
+  "name": "sim2real",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sim2Real static SaaS site and lightweight Node backend",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'No build step required - serving static files'",
+    "test": "node tests/server.test.js",
+    "smoke": "node scripts/site-smoke.js",
+    "verify": "node tests/server.test.js && node scripts/site-smoke.js",
+    "setup": "echo 'See .env.example for required environment variables and configure before running.'",
+    "docker:build": "docker build -t sim2real:latest .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.example sim2real:latest"
+  },
+  "keywords": [
+    "saas",
+    "robotics",
+    "sim2real",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT"
+}

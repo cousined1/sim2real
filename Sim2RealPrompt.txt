@@ -1,0 +1,979 @@
+Here’s a polished **GodMythos v7 build prompt** you can paste into your builder. It is structured to generate a production-ready SaaS marketing site and app shell with SEO, pricing, Stripe billing flow, legal pages, signup disclosures, and company details aligned to your business. Stripe supports subscription products, prices, Checkout, and a hosted customer portal for billing management, which fits the billing requirements you asked to include. [docs.stripe](https://docs.stripe.com/subscriptions)
+
+## Prompt
+
+Build a **production-grade SaaS website and app shell** for **Sim2Real**, an AI-powered simulation-to-real-world transfer platform for industrial robots, under **Developer312**, a subsidiary of **NIGHT LITE USA LLC**. The site should feel credible, technical, and enterprise-ready, with a clean modern SaaS aesthetic, strong SEO structure, and clear conversion paths. Use a compact web app style system rather than oversized marketing typography, because web app interfaces should stay dense, clear, and functional. [docs.stripe](https://docs.stripe.com/subscriptions)
+
+### Brand and company details
+
+Use these business details everywhere relevant:
+
+- Company name: **Developer312**
+- Parent company: **Developer312, a subsidiary of NIGHT LITE USA LLC**
+- Support email: **hello@developer312.com**
+- Phone: **(510) 401-1225**
+
+Use the company identity consistently in the footer, contact page, privacy policy, terms, checkout disclosures, signup forms, and billing notices. Privacy policies should clearly disclose what categories of data are collected, why they are used, how users can exercise rights, and how users can contact the company. [cookie-script](https://cookie-script.com/guides/saas-privacy-policy)
+
+### Product summary
+
+The SaaS is called **Sim2Real**.
+
+Core value proposition:
+
+“Turn robot failures in the real world into simulation improvements that reduce deployment failure rates without requiring new hardware.”
+
+Target customers:
+
+- Robotics startups
+- Logistics operators
+- Warehouse automation teams
+- Manufacturers
+- Enterprise innovation teams running robot pilots
+
+### Main site goals
+
+Create a site that:
+
+- Explains the Sim2Real problem and solution clearly
+- Converts visitors into demos or trial signups
+- Supports self-serve plan selection
+- Includes legal and billing transparency
+- Looks trustworthy enough for enterprise buyers
+- Is optimized for SEO and paid traffic landing pages
+- Can scale into a SaaS dashboard after login
+
+### Required pages
+
+Build all content and navigation into one polished site experience with hash routing or section-based navigation if needed, but include clearly separated page views for:
+
+- Home
+- Product
+- Pricing
+- Contact
+- Terms of Service
+- Privacy Policy
+- Sign Up
+- Login
+- Billing / Account
+- Footer legal block on every page
+
+### Design direction
+
+Use a **clean Swiss-inspired SaaS/web app aesthetic** with:
+
+- Neutral surfaces
+- One restrained accent color
+- Strong typography hierarchy
+- Compact UI scale
+- Dark mode and light mode
+- Technical credibility, not flashy startup gimmicks
+- No purple-gradient AI-template look
+- No generic icon-in-colored-circle feature grid
+- Clear enterprise polish similar in tone to Stripe, Vercel, or Linear-inspired restraint
+
+Use semantic HTML, accessible forms, mobile responsiveness, and a professional footer/legal presentation. Stripe’s no-code pricing table and hosted billing portal are appropriate references for self-serve subscription flows and subscription management expectations. [docs.stripe](https://docs.stripe.com/payments/checkout/pricing-table)
+
+### SEO requirements
+
+Implement full SEO optimization, including:
+
+- Unique title tag and meta description for every page
+- Canonical tags
+- Open Graph tags
+- Twitter/X card tags
+- Structured heading hierarchy
+- Schema markup where appropriate, including Organization, SoftwareApplication, and FAQ schema
+- Crawlable HTML content
+- Internal links between key pages
+- Strong keyword targeting for phrases such as:
+  - sim2real robotics platform
+  - simulation to real transfer software
+  - robotics deployment optimization
+  - industrial robot failure analysis
+  - robot simulation calibration platform
+  - synthetic data optimization for robots
+- Fast-loading layout and clean semantic markup
+- CTA sections written for both humans and search intent
+
+### Homepage requirements
+
+The homepage should include:
+
+- Hero section with strong headline and subheadline
+- Primary CTA: **Book a Demo**
+- Secondary CTA: **Start Free Trial**
+- Problem section explaining the sim-to-real gap
+- Solution section explaining the product workflow
+- Feature section covering:
+  - Real-world calibration layer
+  - Failure analysis engine
+  - Simulation perturbation generator
+  - AI reality translator
+  - Closed feedback loop
+  - Dashboard and deployment insights
+- Use cases section for logistics, manufacturing, and robotics startups
+- ROI/value section
+- FAQ section
+- CTA section before footer
+
+### Product page requirements
+
+The product page should explain in detail:
+
+- How deployment telemetry is captured
+- How failures are classified
+- How simulation parameters are updated
+- How synthetic retraining batches are generated
+- Supported robotics stack integrations, such as ROS, Isaac Sim, Omniverse, MuJoCo, and custom APIs
+- Why the product reduces failure rates, pilot delays, and real-world data collection overhead
+
+### Pricing requirements
+
+Create a polished pricing page with:
+
+#### Plan 1: Pilot Optimizer
+- Price: **$499/month**
+- Intended for small fleets and pilot programs
+- Include:
+  - Up to 3 robots
+  - Core failure analytics
+  - Basic simulator perturbation recommendations
+  - Weekly reports
+  - Email support
+
+#### Plan 2: Enterprise Transfer
+- Price: **Starting at $2,500/month**
+- Intended for large fleets and multi-site deployments
+- Include:
+  - Multi-robot support
+  - Advanced simulation generation
+  - Custom integrations
+  - Priority support
+  - Dedicated onboarding
+  - Usage-based expansion options
+
+#### Optional third tier
+Add a **Custom / Contact Sales** tier for very large deployments.
+
+For pricing presentation:
+
+- Include monthly billing emphasis
+- Add enterprise CTA buttons
+- Include “Talk to Sales” for custom plans
+- Add plan comparison table
+- Add billing FAQ
+- Add refund/cancellation summary
+- Add clear disclosure that taxes may apply and billing terms are governed by the Terms of Service and Stripe-hosted checkout flows where applicable
+
+Stripe supports flat-rate, tiered, per-seat, and recurring subscription price models using products and prices, which should inform the pricing system design. [docs.stripe](https://docs.stripe.com/products-prices/pricing-models)
+
+### Stripe billing requirements
+
+Design the product to use **Stripe** for subscription billing.
+
+Include in the build:
+
+- Stripe Checkout for paid plan signup
+- Stripe-hosted or integrated billing portal for:
+  - updating payment methods
+  - downloading invoices
+  - changing plans
+  - cancelling subscriptions
+- Product and price model structure for recurring subscriptions
+- Monthly billing setup
+- Trial-ready architecture if enabled later
+- Checkout CTA buttons on pricing cards
+- Billing FAQ section
+
+Important billing UX language should mention that customers can manage subscriptions, billing information, and invoices through a secure customer portal, which aligns with Stripe’s customer portal functionality. [docs.stripe](https://docs.stripe.com/no-code/customer-portal)
+
+### Signup and billing disclosures
+
+Add visible signup and checkout disclosures near all signup buttons and billing forms. Include language like:
+
+- “By creating an account, you agree to the Terms of Service and Privacy Policy.”
+- “Paid plans renew automatically until canceled.”
+- “You can manage or cancel your subscription through the billing portal.”
+- “Prices are shown in USD unless otherwise stated.”
+- “Applicable taxes may be added at checkout.”
+- “Service availability, features, and limits depend on your selected plan.”
+
+Use polished legal UX, with disclosures shown in small but readable text below CTAs and checkout buttons. Stripe’s subscription and customer management documentation supports recurring billing and self-serve subscription management patterns for these disclosures. [docs.stripe](https://docs.stripe.com/billing/customer)
+
+### Terms of Service page requirements
+
+Generate a professional **Terms of Service** page for Developer312 that includes:
+
+- Company identity and parent-company disclosure
+- SaaS service description
+- Eligibility and account responsibilities
+- Acceptable use restrictions
+- Subscription terms
+- Payment and renewal terms
+- Cancellation terms
+- No-guarantee / service availability language
+- Intellectual property
+- Confidentiality
+- Warranty disclaimer
+- Limitation of liability
+- Indemnification
+- Governing law placeholder
+- Changes to service or terms
+- Contact information
+
+Add a visible “Last updated” field.
+
+Do not make the terms overly aggressive or shady; keep them startup-professional and enterprise-safe.
+
+### Privacy Policy page requirements
+
+Generate a professional **Privacy Policy** page for Developer312 that includes:
+
+- What personal data is collected
+- Account and contact information collected
+- Billing and transaction information
+- Usage, analytics, device, and log data
+- Cookies and similar technologies
+- How data is used
+- Legal bases / compliance-friendly language where appropriate
+- Third-party service providers, including Stripe for payments and billing
+- Data sharing disclosures
+- Data retention
+- Security statement
+- User rights and request instructions
+- Children’s privacy statement
+- International data transfer placeholder if needed
+- Policy updates
+- Contact information
+
+A SaaS privacy policy should clearly list data categories, purposes, third-party sharing, user rights, contact details, and a last-updated date. [payproglobal](https://payproglobal.com/how-to/create-saas-privacy-policy/)
+
+### Contact page requirements
+
+Create a dedicated **Contact** page with:
+
+- Contact form
+- Email: **hello@developer312.com**
+- Phone: **(510) 401-1225**
+- Business identity:
+  **Developer312, a subsidiary of NIGHT LITE USA LLC**
+- Sections for:
+  - Sales inquiries
+  - Support
+  - Partnerships
+  - Press / enterprise requests
+
+Add CTA options for **Book a Demo** and **Contact Sales**.
+
+### Footer legal block
+
+Add a professional footer on every page with:
+
+- Developer312 logo/wordmark
+- Short product description
+- Navigation links:
+  - Product
+  - Pricing
+  - Contact
+  - Login
+  - Sign Up
+  - Terms
+  - Privacy
+- Legal identity line:
+  **Developer312 is a subsidiary of NIGHT LITE USA LLC**
+- Contact email and phone
+- Copyright line
+- Billing and legal note:
+  “Subscriptions renew automatically unless canceled in accordance with your plan terms.”
+- Links to Terms and Privacy beside signup-oriented CTAs in the footer
+
+### App/auth pages
+
+Create clean SaaS auth pages for:
+
+- Sign Up
+- Login
+- Forgot Password
+- Billing / Account overview
+
+For sign up:
+
+- Ask only for necessary fields
+- Include checkbox or notice agreeing to Terms and Privacy
+- Include billing notice for paid signup paths
+- Offer trial or demo path if relevant
+
+For account/billing page:
+
+- Show current plan
+- Billing status
+- Payment method placeholder
+- Invoice history placeholder
+- Manage subscription button
+- Cancel or change plan button
+- Link to Stripe billing portal
+
+### Copy style
+
+Write copy that is:
+
+- Specific
+- Technical but understandable
+- Enterprise-friendly
+- Free of hype clichés
+- Focused on operational outcomes
+- Written in active voice
+
+Avoid phrases like:
+
+- “unleash the power”
+- “game-changing innovation”
+- “revolutionary platform”
+- “all-in-one solution”
+
+### Conversion elements
+
+Include throughout the site:
+
+- Demo request CTAs
+- Trial CTAs
+- Contact sales forms
+- FAQ objections handling
+- Trust indicators
+- Security/privacy reassurance
+- Billing transparency
+
+### Legal and trust notes
+
+Throughout pricing, signup, and billing sections, clearly state:
+
+- Subscriptions auto-renew unless canceled
+- Customers are responsible for accurate billing information
+- Access to certain features depends on plan level
+- Billing is handled securely
+- Legal terms govern service usage
+- Privacy practices are described in the Privacy Policy
+
+### Technical expectations
+
+Build this as a polished static SaaS site/app shell with:
+
+- Accessible semantic HTML
+- Responsive layout
+- Strong footer architecture
+- Clear CTA hierarchy
+- Structured legal pages
+- Clean form styling
+- Modern SaaS sections
+- SEO-ready markup
+- Placeholder-ready Stripe integration buttons and flows
+- No broken lorem ipsum
+- No filler graphics
+- No generic AI-template visual language
+
+### Output requirement
+
+Return the full site/app structure, page copy, section copy, legal copy drafts, CTA text, pricing copy, signup disclosures, footer legal block, and Stripe billing flow placeholders in a format ready for implementation.
+
+## Suggested disclosure text
+
+You can also append this exact instruction block inside the prompt so the builder uses near-final legal microcopy:
+
+- Under signup forms:  
+  “By creating an account, you agree to the Terms of Service and Privacy Policy.”
+
+- Under paid plan buttons:  
+  “Subscriptions renew automatically until canceled. You can manage billing, payment methods, and cancellations through the customer billing portal.”
+
+- Under pricing table:  
+  “Prices are listed in USD unless otherwise noted. Applicable taxes may be added at checkout.”
+
+- In billing area:  
+  “Invoices, payment methods, subscription changes, and cancellation controls are available in your billing settings.”
+
+- In footer legal line:  
+  “Developer312 is a subsidiary of NIGHT LITE USA LLC.”
+
+## Notes
+
+Stripe’s documentation supports recurring subscription setup through products and prices, hosted Checkout, embeddable pricing tables, and a customer portal for managing subscriptions, invoices, and payment methods, so those patterns are safe to model in the prompt. [docs.stripe](https://docs.stripe.com/customer-management)
+
+Absolutely — here’s a **homepage + legal pages copy pack** you can paste into GodMythos v7 or hand to a designer/developer. I also included your requested install command exactly as provided. Stripe’s hosted customer portal can support subscription management, payment method updates, invoices, cancellations, and plan changes, so the billing language below is framed around that model. [docs.stripe](https://docs.stripe.com/customer-management)
+
+## Install note
+
+Add this setup instruction in your build prompt exactly as written:
+
+`npx @insforge/install --client codex --env API_KEY=ik_sehrni5g1w9ptlg52cx3sx32nlrvsgmz --env API_BASE_URL=https://insforge-production-0d5a.up.railway.app`
+
+## Master prompt
+
+Create a **homepage + legal pages copy pack** for **Sim2Real**, a SaaS product by **Developer312**, a subsidiary of **NIGHT LITE USA LLC**. The output should include ready-to-use website copy for the homepage, pricing section, signup disclosures, contact page, Terms of Service, Privacy Policy, footer legal block, and billing language. The site should be written for a technical B2B SaaS audience in robotics and industrial automation, and it should be optimized for SEO, conversion clarity, and trust. SaaS privacy content should be transparent about what data is collected, why it is used, which third parties are involved, what rights users have, and how they can contact the company. [cookie-script](https://cookie-script.com/guides/saas-privacy-policy)
+
+Use these company details consistently:
+
+- Company: **Developer312**
+- Parent company disclosure: **Developer312 is a subsidiary of NIGHT LITE USA LLC**
+- Email: **hello@developer312.com**
+- Phone: **(510) 401-1225**
+
+Use this product positioning:
+
+**Sim2Real** is an AI-powered simulation-to-real-world transfer optimizer for industrial and humanoid robots. It helps robotics teams identify where simulation assumptions break in real deployments, then feeds those real-world failures back into the simulator to generate more realistic training data and improve robot performance.
+
+Use a tone that is:
+
+- Technical but clear
+- Enterprise-friendly
+- Specific and credible
+- Free of hype clichés
+- Written in active voice
+- Focused on operational outcomes, deployment reliability, and reduced pilot failure
+
+Include this setup command somewhere in the project notes or implementation instructions:
+
+`npx @insforge/install --client codex --env API_KEY=ik_sehrni5g1w9ptlg52cx3sx32nlrvsgmz --env API_BASE_URL=https://insforge-production-0d5a.up.railway.app`
+
+## Homepage copy pack
+
+### SEO fields
+
+**Homepage title tag:**  
+Sim2Real for Robotics | Simulation-to-Real Transfer Software | Developer312
+
+**Meta description:**  
+Sim2Real helps robotics teams reduce deployment failures by turning real-world robot errors into improved simulation training data. Built for industrial pilots, warehouses, and manufacturing teams.
+
+**Suggested homepage URL slug:**  
+`/`
+
+**Primary SEO keywords:**  
+sim2real robotics software, simulation to real transfer platform, industrial robot deployment software, robotics failure analysis, simulation calibration for robots
+
+### Hero section
+
+**Eyebrow:**  
+Simulation-to-real transfer for robotics teams
+
+**Headline:**  
+Make robot models work outside the simulator.
+
+**Subheadline:**  
+Sim2Real helps robotics teams detect why simulation-trained models fail in real environments, then turns those failures into better simulation conditions, stronger training data, and more reliable deployment performance.
+
+**Primary CTA:**  
+Book a Demo
+
+**Secondary CTA:**  
+Start Free Trial
+
+**Supporting proof line:**  
+Built for pilot deployments, warehouse automation, manufacturing workflows, and real-world robotics validation.
+
+**Microcopy under CTA:**  
+By creating an account or requesting access, you agree to our Terms of Service and Privacy Policy. Paid subscriptions renew automatically until canceled. [termly](https://termly.io/resources/articles/privacy-policy-for-a-saas-business/)
+
+### Hero trust bar
+
+Use logos or placeholder text for categories such as:
+
+- Robotics startups
+- Warehouse operators
+- Manufacturing teams
+- Enterprise pilot programs
+
+**Trust statement:**  
+Designed for teams that need robots to perform reliably in production, not just in demos.
+
+### Problem section
+
+**Section heading:**  
+The simulator is not your deployment environment.
+
+**Body copy:**  
+Most robotics models fail in production for reasons that do not show up in clean synthetic training data. Lighting shifts, worn surfaces, box tilt, clutter, friction variance, dust, and sensor noise create failure patterns that standard simulation workflows miss.
+
+Teams often respond by collecting more real-world data manually, but that process is slow, expensive, and difficult to scale across changing environments. Sim2Real closes that gap by learning directly from deployment failures and using them to improve future simulation runs.
+
+### Solution section
+
+**Section heading:**  
+A feedback loop from the real world back into training
+
+**Intro:**  
+Sim2Real captures what actually happened during robot execution, compares it to what the simulator expected, and converts those mismatches into structured improvements.
+
+**Three-step flow:**
+
+**1. Capture deployment telemetry**  
+Collect camera, force-torque, IMU, and task outcome data from real robot operations.
+
+**2. Detect failure causes**  
+Identify where simulation assumptions diverged from actual conditions, including object geometry variance, lighting, friction, tilt, clutter, and contact behavior.
+
+**3. Improve future training**  
+Generate better simulation parameter sets and synthetic scenarios so training reflects real deployment conditions more closely.
+
+### Features section
+
+**Section heading:**  
+Core product capabilities
+
+**Feature 1: Real-world calibration layer**  
+Passively ingests deployment telemetry and compares expected vs. observed outcomes.
+
+**Feature 2: Failure analysis engine**  
+Classifies failure patterns and surfaces repeatable sim-to-real gaps by task, environment, and object type.
+
+**Feature 3: Simulation perturbation generator**  
+Transforms observed discrepancies into updated simulation conditions such as friction, clutter density, lighting variance, and object pose randomness.
+
+**Feature 4: AI reality translator**  
+Uses vision and language models to describe real-world scenes in structured terms the simulator can use.
+
+**Feature 5: Closed feedback loop**  
+Turns failed attempts into better synthetic training data for future model improvement.
+
+**Feature 6: Deployment insights dashboard**  
+Shows failure trends, transfer bottlenecks, task performance, and recommended simulation updates over time.
+
+### Use cases section
+
+**Section heading:**  
+Built for real deployment conditions
+
+**Logistics and warehouses**  
+Reduce bin-picking, handling, and grasp failures caused by messy, inconsistent environments.
+
+**Manufacturing**  
+Improve reliability in repetitive but variable workflows where small physical differences create expensive downtime.
+
+**Robotics startups**  
+Move faster from pilot to production by learning from deployment data instead of rebuilding workflows around repeated failures.
+
+### ROI section
+
+**Section heading:**  
+Reduce the cost of failed pilots
+
+**Body copy:**  
+When sim-to-real gaps remain hidden, robotics teams lose time in debugging, manual relabeling, repeated retraining, and on-site pilot delays. Sim2Real gives teams a systematic way to identify what is breaking, why it is breaking, and how to adjust training conditions before failure patterns multiply.
+
+**Bullets:**
+- Shorten pilot iteration cycles
+- Improve model robustness in production environments
+- Reduce manual real-world data collection overhead
+- Surface hidden transfer bottlenecks earlier
+- Support more reliable customer-facing deployments
+
+### Pricing preview section
+
+**Section heading:**  
+Pricing built for pilots and production fleets
+
+**Plan card 1:**  
+**Pilot Optimizer**  
+$499/month  
+For early fleets and pilot programs
+
+- Up to 3 robots
+- Core failure analytics
+- Baseline simulation recommendations
+- Weekly reporting
+- Email support
+
+**CTA:**  
+Start Free Trial
+
+**Plan card 2:**  
+**Enterprise Transfer**  
+Starting at $2,500/month  
+For larger fleets and deployment teams
+
+- Multi-robot support
+- Advanced simulation generation
+- Priority support
+- Custom integrations
+- Dedicated onboarding
+
+**CTA:**  
+Talk to Sales
+
+**Pricing note:**  
+Prices shown in USD unless otherwise stated. Applicable taxes may be added at checkout. Paid plans renew automatically until canceled. Stripe supports recurring products and prices for subscription billing, and hosted Checkout plus customer portal flows can be used for self-serve subscription management. [docs.stripe](https://docs.stripe.com/products-prices/pricing-models)
+
+### FAQ section
+
+**Q: What problem does Sim2Real solve?**  
+Sim2Real helps robotics teams close the gap between simulation-trained performance and real-world deployment behavior.
+
+**Q: Does Sim2Real replace my simulator?**  
+No. It works alongside existing simulation and robotics stacks to improve the realism and usefulness of your training loop.
+
+**Q: What integrations do you support?**  
+Support can include ROS, Isaac Sim, Omniverse, MuJoCo, and custom APIs depending on plan level.
+
+**Q: How is billing managed?**  
+Paid subscriptions are managed through secure billing workflows, with subscription changes, payment method updates, invoices, and cancellations available through a customer billing portal. [stripe](https://stripe.com/blog/billing-customer-portal)
+
+**Q: Can I cancel anytime?**  
+Customers can manage subscriptions according to plan terms, including cancellation through the billing portal or account settings where available. Stripe’s customer portal supports cancellation and related flows. [support.stripe](https://support.stripe.com/questions/billing-customer-portal)
+
+### Final CTA section
+
+**Headline:**  
+Make deployment failures useful.
+
+**Body copy:**  
+See where your simulation assumptions break, then feed those insights back into training before they slow down your rollout.
+
+**Primary CTA:**  
+Book a Demo
+
+**Secondary CTA:**  
+Contact Sales
+
+## Contact page copy
+
+### SEO fields
+
+**Title tag:**  
+Contact Developer312 | Sim2Real Sales and Support
+
+**Meta description:**  
+Contact Developer312 for Sim2Real demos, sales questions, support requests, and partnership inquiries.
+
+### Page copy
+
+**Headline:**  
+Contact Developer312
+
+**Intro:**  
+Talk with our team about Sim2Real, pricing, enterprise deployment needs, partnerships, or product support.
+
+**Contact details:**  
+Email: hello@developer312.com  
+Phone: (510) 401-1225  
+Developer312 is a subsidiary of NIGHT LITE USA LLC.
+
+**Form heading:**  
+How can we help?
+
+**Form fields:**  
+- Full name  
+- Work email  
+- Company  
+- Topic  
+- Message
+
+**Topic options:**  
+- Book a demo  
+- Pricing question  
+- Enterprise deployment  
+- Technical support  
+- Partnership inquiry  
+- Press inquiry
+
+**Submission note:**  
+By submitting this form, you agree that we may use your information to respond to your request in accordance with our Privacy Policy. Clear contact methods and data-use explanations are a standard privacy best practice for SaaS sites. [cookie-script](https://cookie-script.com/guides/saas-privacy-policy)
+
+## Signup and billing disclosures
+
+Use these short-form disclosures under signup forms, pricing buttons, and checkout CTAs.
+
+**Signup disclosure:**  
+By creating an account, you agree to the Terms of Service and Privacy Policy.
+
+**Paid plan disclosure:**  
+Paid plans renew automatically until canceled. You can manage billing details, invoices, payment methods, and subscription changes through the customer billing portal. Stripe’s hosted portal is designed for those account-management actions. [docs.stripe](https://docs.stripe.com/customer-management)
+
+**Tax disclosure:**  
+Prices are listed in USD unless otherwise noted. Applicable taxes may be added at checkout.
+
+**Plan availability disclosure:**  
+Features, usage limits, and support levels vary by plan.
+
+**Billing authorization disclosure:**  
+By starting a paid subscription, you authorize recurring charges according to your selected plan and billing interval.
+
+## Footer legal block copy
+
+Use this footer on all pages.
+
+**Footer description:**  
+Sim2Real helps robotics teams improve real-world robot performance by turning deployment failures into better simulation conditions and training data.
+
+**Footer links:**  
+Product  
+Pricing  
+Contact  
+Sign Up  
+Login  
+Terms of Service  
+Privacy Policy
+
+**Legal identity line:**  
+Developer312 is a subsidiary of NIGHT LITE USA LLC.
+
+**Contact line:**  
+hello@developer312.com | (510) 401-1225
+
+**Billing note:**  
+Subscriptions renew automatically unless canceled in accordance with your plan terms.
+
+**Copyright line:**  
+© 2026 Developer312. All rights reserved.
+
+## Terms of Service copy pack
+
+### SEO fields
+
+**Title tag:**  
+Terms of Service | Developer312
+
+**Meta description:**  
+Read the Terms of Service for Sim2Real by Developer312, including subscription terms, acceptable use, billing, and account responsibilities.
+
+### Terms page
+
+**Headline:**  
+Terms of Service
+
+**Last updated:**  
+April 9, 2026
+
+**Intro:**  
+These Terms of Service govern your access to and use of Sim2Real and related services provided by Developer312, a subsidiary of NIGHT LITE USA LLC. By accessing or using the service, you agree to these Terms.
+
+### 1. Company information
+
+Sim2Real is provided by Developer312, a subsidiary of NIGHT LITE USA LLC. For questions about these Terms, contact hello@developer312.com or call (510) 401-1225.
+
+### 2. Service description
+
+Sim2Real is a software platform designed to help robotics teams analyze real-world deployment outcomes, identify simulation-to-reality mismatches, and improve simulation-driven training workflows.
+
+### 3. Eligibility and accounts
+
+You must have authority to enter into these Terms on behalf of yourself or your organization. You are responsible for maintaining the confidentiality of account credentials and for all activity occurring under your account.
+
+### 4. Acceptable use
+
+You agree not to misuse the service, interfere with platform operations, attempt unauthorized access, reverse engineer protected parts of the service except as allowed by law, or use the service in violation of applicable law or third-party rights.
+
+### 5. Customer data
+
+You retain rights to the data you submit to the service, subject to the rights needed for us to host, process, analyze, and provide the service. You represent that you have the necessary rights and permissions to submit such data.
+
+### 6. Subscriptions and billing
+
+Some features are offered on a paid subscription basis. By purchasing a paid plan, you agree to the pricing, billing interval, and feature limits associated with your selected plan. Subscription billing may be processed through Stripe-hosted payment and customer billing tools. Stripe supports recurring products and prices and hosted customer billing management for subscription businesses. [docs.stripe](https://docs.stripe.com/products-prices/pricing-models)
+
+### 7. Renewals and cancellation
+
+Unless otherwise stated, paid subscriptions renew automatically at the end of each billing cycle until canceled. Customers may manage subscription changes, cancellations, payment methods, and invoices through the billing portal where enabled. Stripe’s customer portal supports these self-serve billing actions. [support.stripe](https://support.stripe.com/questions/billing-customer-portal)
+
+### 8. Fees and taxes
+
+Fees are stated in U.S. dollars unless otherwise specified. Applicable taxes may be added at checkout or invoicing.
+
+### 9. No warranty
+
+The service is provided on an “as is” and “as available” basis, without warranties of any kind to the fullest extent permitted by law.
+
+### 10. Limitation of liability
+
+To the fullest extent permitted by law, Developer312 and NIGHT LITE USA LLC will not be liable for indirect, incidental, special, consequential, or punitive damages, or for loss of profits, revenues, data, or business opportunities arising from or related to the service.
+
+### 11. Suspension and termination
+
+We may suspend or terminate access if you violate these Terms, create security risk, fail to pay applicable fees, or use the service in a way that could harm the platform or other users.
+
+### 12. Intellectual property
+
+The service, software, branding, documentation, and related materials are owned by Developer312 and its licensors, except for customer-provided content.
+
+### 13. Changes to the service or terms
+
+We may update the service or these Terms from time to time. If we make material changes, we will post the updated version and revise the last updated date.
+
+### 14. Governing law
+
+Add a governing law and venue section appropriate for your business jurisdiction before publishing.
+
+### 15. Contact
+
+Developer312  
+A subsidiary of NIGHT LITE USA LLC  
+Email: hello@developer312.com  
+Phone: (510) 401-1225
+
+## Privacy Policy copy pack
+
+### SEO fields
+
+**Title tag:**  
+Privacy Policy | Developer312
+
+**Meta description:**  
+Read the Privacy Policy for Sim2Real by Developer312, including information about data collection, billing, analytics, and your privacy rights.
+
+### Privacy page
+
+**Headline:**  
+Privacy Policy
+
+**Last updated:**  
+April 9, 2026
+
+**Intro:**  
+This Privacy Policy explains how Developer312, a subsidiary of NIGHT LITE USA LLC, collects, uses, discloses, and protects information in connection with Sim2Real and related services. A strong SaaS privacy policy should explain data categories, purposes, third-party disclosures, user rights, and contact methods in clear language. [termly](https://termly.io/resources/articles/privacy-policy-for-a-saas-business/)
+
+### 1. Information we collect
+
+We may collect the following categories of information:
+
+- Contact information, such as name, work email address, phone number, company name, and job title
+- Account information, such as login credentials and user profile details
+- Billing and transaction information related to paid subscriptions
+- Usage information, such as interaction logs, pages viewed, actions taken, and account activity
+- Device and technical information, such as IP address, browser type, operating system, and approximate location derived from IP
+- Support and communications information, such as messages, inquiries, and support requests
+- Integration or telemetry data submitted by customers in connection with platform functionality
+
+SaaS privacy guidance commonly recommends organizing data collection into clear categories like personal, usage, technical, tracking, billing, and third-party data. [termly](https://termly.io/resources/articles/privacy-policy-for-a-saas-business/)
+
+### 2. How we use information
+
+We may use information to:
+
+- Provide, operate, maintain, and improve the service
+- Process transactions and manage subscriptions
+- Authenticate users and secure accounts
+- Respond to support requests and sales inquiries
+- Analyze usage and improve product performance
+- Communicate about service updates, billing matters, and account notices
+- Comply with legal obligations and enforce our terms
+
+### 3. Payments and billing providers
+
+We may use third-party payment and billing providers, including Stripe, to process payments, manage subscriptions, and provide billing tools such as invoices, payment method updates, and subscription management. Stripe’s customer portal is designed to let customers update billing information, manage subscriptions, and access invoices. [stripe](https://stripe.com/blog/billing-customer-portal)
+
+### 4. Cookies and analytics
+
+We may use cookies and similar technologies for authentication, security, analytics, performance monitoring, and product improvement. Where legally required, we will provide additional notice or consent options.
+
+### 5. How we share information
+
+We may share information with:
+
+- Service providers and infrastructure vendors that help us operate the service
+- Payment and billing processors
+- Analytics and support tools
+- Professional advisors or authorities when required by law
+- Corporate affiliates, including NIGHT LITE USA LLC, where relevant to operations and administration
+
+Privacy policy best practices call for identifying third-party processors and explaining why sharing occurs, rather than using vague statements. [michalsons](https://www.michalsons.com/blog/saas-privacy-policies/75759)
+
+### 6. Data retention
+
+We retain information for as long as reasonably necessary to provide the service, comply with legal obligations, resolve disputes, enforce agreements, and maintain security and business records. Privacy compliance guidance commonly recommends documenting retention practices and limiting unnecessary retention. [secureprivacy](https://secureprivacy.ai/blog/saas-privacy-compliance-requirements-2025-guide)
+
+### 7. Security
+
+We use reasonable administrative, technical, and organizational measures designed to protect information. However, no method of transmission or storage is completely secure.
+
+### 8. Your choices and rights
+
+Depending on your location, you may have rights to access, correct, delete, or restrict certain personal information, or to object to certain processing. You may also have the right to request a copy of your data or withdraw consent where consent is the legal basis for processing.
+
+### 9. Children’s privacy
+
+The service is not directed to children, and we do not knowingly collect personal information from children.
+
+### 10. International data transfers
+
+If applicable, add disclosures regarding cross-border data transfers and related safeguards before publishing.
+
+### 11. Policy changes
+
+We may update this Privacy Policy from time to time. When we do, we will update the last updated date at the top of the page.
+
+### 12. Contact us
+
+Developer312  
+A subsidiary of NIGHT LITE USA LLC  
+Email: hello@developer312.com  
+Phone: (510) 401-1225
+
+## Pricing page copy pack
+
+### SEO fields
+
+**Title tag:**  
+Pricing | Sim2Real by Developer312
+
+**Meta description:**  
+Explore Sim2Real pricing for robotics pilots and enterprise deployments, with subscription billing, self-serve options, and enterprise onboarding.
+
+### Pricing page copy
+
+**Headline:**  
+Pricing for pilot teams and production deployments
+
+**Subheadline:**  
+Choose a plan that fits your fleet size, deployment complexity, and simulation workflow needs.
+
+**Plan 1:**  
+**Pilot Optimizer**  
+$499/month
+
+Best for small fleets and pilot programs.
+
+- Up to 3 robots
+- Core failure analytics
+- Basic simulation perturbation recommendations
+- Weekly reports
+- Email support
+
+**CTA:**  
+Start Free Trial
+
+**Plan 2:**  
+**Enterprise Transfer**  
+Starting at $2,500/month
+
+Best for scaling deployments and multi-site operations.
+
+- Multi-robot support
+- Advanced simulation generation
+- Integration support
+- Priority support
+- Dedicated onboarding
+
+**CTA:**  
+Talk to Sales
+
+**Enterprise note:**  
+Need custom deployment support, expanded telemetry pipelines, or advanced fleet coverage? Contact us for a tailored plan.
+
+**Billing note:**  
+Subscriptions may be managed through secure billing flows, including invoice access, payment updates, plan changes, and cancellations through a customer billing portal. Stripe documents these billing-management capabilities through its hosted customer portal. [stripe](https://stripe.com/resources/more/self-serve-subscription-management-and-billing-portals)
+
+## Implementation notes
+
+Include these product and billing implementation notes in the build prompt:
+
+- Use Stripe Checkout for paid subscriptions
+- Use Stripe customer portal for subscription management
+- Support plan upgrades, downgrades, invoice access, payment method updates, and cancellation flows
+- Structure pricing around recurring products and prices
+- Keep legal links visible from pricing, signup, and footer areas
+
+Stripe’s pricing model documentation is built around products and prices, and its pricing table documentation supports direct subscription Checkout flows for common flat-rate and tiered SaaS plans. [docs.stripe](https://docs.stripe.com/payments/checkout/pricing-table)
+
+## Important note
+
+Before publishing, have a qualified attorney review the Terms of Service and Privacy Policy to confirm they fit your jurisdiction, actual data practices, and regulatory obligations. Best-practice privacy guidance emphasizes that policies should match real processing behavior, named third parties, and applicable laws. [michalsons](https://www.michalsons.com/blog/saas-privacy-policies/75759)
+

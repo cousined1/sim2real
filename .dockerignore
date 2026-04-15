@@ -1,0 +1,34 @@
+# Git
+.git
+.gitignore
+
+# Development
+.env
+.env.local
+.env.*.local
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Railway
+railway.json
+railway.env.example
+
+# Documentation
+*.md
+!README.md
+
+# Backup files
+*.backup

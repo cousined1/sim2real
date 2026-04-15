@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node tests/server.test.js)",
+      "Bash(node scripts/site-smoke.js)",
+      "Bash(dir \"C:\\\\Users\\\\Eddie\\\\.openclaw\\\\workspace\\\\Sim2Real\")",
+      "Bash(npm test:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
