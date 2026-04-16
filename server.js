@@ -528,7 +528,7 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
 
     // CSRF validation
     const stateChangingMethods = ["POST"];
-    const csrfExemptRoutes = ["/api/auth/login", "/api/auth/signup", "/api/auth/logout", "/api/webhooks/stripe"];
+    const csrfExemptRoutes = ["/api/auth/login", "/api/auth/signup", "/api/auth/logout", "/api/webhooks/stripe", "/api/chat"];
     if (stateChangingMethods.includes(request.method) && !csrfExemptRoutes.includes(url)) {
       const cookies = parseCookies(request.headers.cookie);
       const csrfHeader = request.headers["x-csrf-token"] || "";
@@ -749,6 +749,22 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
       pwSessions = pruneExpiredSessions(pwSessions.filter((s) => s.userId !== auth.user.id));
       store.write("sessions", pwSessions);
       return json(response, 200, { ok: true });
+    }
+
+    // Version endpoint (for forced-update watchdog)
+    if (request.method === "GET" && request.url === "/api/version") {
+      response.writeHead(200, {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store, max-age=0, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0",
+      });
+      response.end(JSON.stringify({
+        version: process.env.npm_package_version || process.env.NEXT_PUBLIC_APP_VERSION || "0.0.0",
+        build: process.env.RAILWAY_GIT_COMMIT_SHA || process.env.VERCEL_GIT_COMMIT_SHA || null,
+        timestamp: new Date().toISOString(),
+      }));
+      return;
     }
 
     // Account/dashboard data
