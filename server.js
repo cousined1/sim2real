@@ -625,7 +625,9 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
       const userMessage = String(body.message || "").trim();
       const sessionId = getChatSessionId(body);
       const state = getChatState(sessionId);
+      log("info", `Chat request: sessionId=${sessionId}, flow=${state.flow}, step=${state.step}, message=${userMessage.slice(0, 50)}`);
       const responsePayload = handleChatMessage(userMessage, state);
+      log("info", `Chat response: sessionId=${sessionId}, flow=${state.flow}, step=${state.step}, type=${responsePayload.type}`);
       return json(response, 200, { success: true, sessionId, ...responsePayload });
     }
 
