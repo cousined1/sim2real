@@ -541,47 +541,22 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
 
     // Sim2Real AI Chat endpoint
 
-    // Conversation state management for salesbot chat
+    // Conversation state management for salesbot chat (client-side state)
     const CHAT_SESSION_TTL_MS = 30 * 60 * 1000; // 30 minutes
-    const CHAT_SESSION_KEY = "chat_sessions";
 
     function getChatSessionId(body) {
       return String(body.sessionId || "anon-" + Math.random().toString(36).slice(2));
     }
 
-    function getChatState(sessionId) {
-      const now = Date.now();
-      const sessions = store.read(CHAT_SESSION_KEY, {});
-      // Prune stale sessions
-      for (const sid of Object.keys(sessions)) {
-        if (now - sessions[sid].updatedAt > CHAT_SESSION_TTL_MS) {
-          delete sessions[sid];
-        }
-      }
-      if (!sessions[sessionId]) {
-        sessions[sessionId] = {
-          flow: "idle",
-          step: 0,
-          data: {},
-          updatedAt: now
-        };
-        store.write(CHAT_SESSION_KEY, sessions);
-      }
-      return sessions[sessionId];
-    }
-
-    function updateChatState(sessionId, updates) {
-      const sessions = store.read(CHAT_SESSION_KEY, {});
-      if (!sessions[sessionId]) {
-        sessions[sessionId] = {
-          flow: "idle",
-          step: 0,
-          data: {},
-          updatedAt: Date.now()
-        };
-      }
-      Object.assign(sessions[sessionId], updates, { updatedAt: Date.now() });
-      store.write(CHAT_SESSION_KEY, sessions);
+    function getChatState(body) {
+      // Client sends state with each request; server validates and uses it
+      const clientState = body.state || {};
+      return {
+        flow: clientState.flow || "idle",
+        step: typeof clientState.step === "number" ? clientState.step : 0,
+        data: clientState.data || {},
+        updatedAt: clientState.updatedAt || Date.now()
+      };
     }
 
     const SIM2REAL_KB = [
@@ -634,11 +609,11 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
       const body = await parseBody(request);
       const userMessage = String(body.message || "").trim();
       const sessionId = getChatSessionId(body);
-      const state = getChatState(sessionId);
+      const state = getChatState(body);
       log("info", `Chat request: sessionId=${sessionId}, flow=${state.flow}, step=${state.step}, message=${userMessage.slice(0, 50)}`);
       const responsePayload = handleChatMessage(userMessage, state);
       log("info", `Chat response: sessionId=${sessionId}, flow=${state.flow}, step=${state.step}, type=${responsePayload.type}`);
-      return json(response, 200, { success: true, sessionId, ...responsePayload });
+      return json(response, 200, { success: true, sessionId, state, ...responsePayload });
     }
 
     function handleChatMessage(userMessage, state) {
