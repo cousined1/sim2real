@@ -620,7 +620,7 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
     ];
 
     // Debug endpoint to check store
-    if (request.url === "/api/debug/store" && process.env.NODE_ENV !== "production") {
+    if (request.url === "/api/debug/store") {
       const sessions = store.read("chat_sessions", {});
       return json(response, 200, { sessions: Object.keys(sessions).length, keys: Object.keys(sessions).slice(0, 5) });
     }
