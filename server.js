@@ -622,7 +622,11 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
     // Debug endpoint to check store
     if (request.url === "/api/debug/store") {
       const sessions = store.read("chat_sessions", {});
-      return json(response, 200, { sessions: Object.keys(sessions).length, keys: Object.keys(sessions).slice(0, 5) });
+      const sessionData = sessions[request.headers["x-session-id"] || ""];
+      if (sessionData) {
+        return json(response, 200, { session: sessionData });
+      }
+      return json(response, 200, { sessions: Object.keys(sessions).length, keys: Object.keys(sessions).slice(0, 5), sample: Object.values(sessions)[0] });
     }
 
     // Enhanced /api/chat with conversation state tracking
