@@ -419,15 +419,7 @@ ul {
   opacity: 0.9;
 }
 
-/* Hide fallback when video loads / plays */
-.hero-video-wrapper video:not([src]) ~ .hero-video-fallback,
-.hero-video-wrapper video[error] ~ .hero-video-fallback {
-  display: flex;
-}
-
-.hero-video-wrapper video[src] ~ .hero-video-fallback {
-  display: none;
-}
+/* Fallback overlay is controlled by JS (inline style) */
 
 .panel--metric {
   margin-bottom: var(--space-md);

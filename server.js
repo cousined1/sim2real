@@ -541,40 +541,244 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
 
     // Sim2Real AI Chat endpoint
 
+    // Conversation state management for salesbot chat
+    const CHAT_SESSION_TTL_MS = 30 * 60 * 1000; // 30 minutes
+    const chatSessions = new Map();
 
-    // Sim2Real AI Chat endpoint
+    function getChatSessionId(body) {
+      return String(body.sessionId || "anon-" + Math.random().toString(36).slice(2));
+    }
+
+    function getChatState(sessionId) {
+      const now = Date.now();
+      // Prune stale sessions periodically
+      for (const [sid, sess] of chatSessions) {
+        if (now - sess.updatedAt > CHAT_SESSION_TTL_MS) chatSessions.delete(sid);
+      }
+      if (!chatSessions.has(sessionId)) {
+        chatSessions.set(sessionId, {
+          flow: "idle",
+          step: 0,
+          data: {},
+          updatedAt: now
+        });
+      }
+      return chatSessions.get(sessionId);
+    }
+
+    function updateChatState(sessionId, updates) {
+      const state = getChatState(sessionId);
+      Object.assign(state, updates, { updatedAt: Date.now() });
+    }
+
     const SIM2REAL_KB = [
       { q: /sim.?to.?real|sim2real|sim.to.real/i, a: "Sim2Real is a simulation-to-real transfer platform that helps robotics teams close the gap between simulation-trained models and real-world deployment behavior. It captures deployment telemetry, detects failure causes, generates improved simulation conditions, and feeds those back into your training loop -- reducing pilot failures and improving transfer reliability." },
       { q: /digital twin/i, a: "A digital twin is a virtual replica of a physical system that mirrors its behavior in real time. In robotics, digital twins let you test control policies and perception models in simulation before deploying to the real robot -- saving time and reducing risk. Sim2Real builds and maintains digital twins of your deployment environments by learning from actual robot performance data." },
+      { q: /failure analysis engine/i, a: "The Failure Analysis Engine classifies deployment failures by physical cause -- perception mismatch (lighting, occlusion, glare), physics mismatch (friction, contact, inertial differences), and task mismatch (policy, sequencing, edge cases). This lets your team target the right fix instead of treating every failure as generic noise." },
+      { q: /training data generation|synthetic data|retrain/i, a: "Sim2Real transforms real-world deployment failures into improved simulation training conditions. When a robot fails in the field, that failure is analyzed and used to generate new synthetic scenarios with updated perturbations -- like adjusted friction, lighting, or clutter -- so your next training run better reflects actual deployment conditions." },
+      { q: /ros|ros2/i, a: "Sim2Real integrates with ROS and ROS2 for telemetry ingestion, command logging, and deployment metadata. We support topic-level data capture and can work alongside your existing robot middleware without requiring a stack swap." },
+      { q: /mujoco/i, a: "Sim2Real supports MuJoCo as a simulation backend. We generate updated parameter sets and perturbation ranges that can be loaded directly into MuJoCo scenes, making it easy to retrain policies with more realistic physics." },
+      { q: /isaac sim|isaacsim/i, a: "Sim2Real works with NVIDIA Isaac Sim for high-fidelity GPU-accelerated simulation. We can push updated scene descriptions, lighting configurations, and material properties back into Isaac Sim for retraining." },
+      { q: /omniverse/i, a: "Sim2Real integrates with NVIDIA Omniverse for scalable, collaborative simulation workflows. We support USD scene updates and can sync digital twin parameters across Omniverse-connected environments." },
+      { q: /pilot optimizer/i, a: "Pilot Optimizer is our $499/month plan designed for small fleets and pilot programs. It includes up to 3 robots, core failure analytics, baseline simulation perturbation recommendations, weekly reporting, and email support." },
+      { q: /enterprise transfer|enterprise plan/i, a: "Enterprise Transfer starts at $2,500/month and is built for scaling deployments and multi-site operations. It includes multi-robot support, advanced simulation generation, custom integrations, priority support, and dedicated onboarding." },
+      { q: /roi|cost savings|return on investment/i, a: "Sim2Real reduces the cost of failed pilots by shortening iteration cycles, lowering manual data collection overhead, and surfacing hidden transfer bottlenecks before they multiply. Teams typically see faster go-live decisions and fewer expensive on-site debugging sessions." },
+      { q: /security|compliance|soc2|iso/i, a: "Sim2Real processes deployment telemetry in a secure environment with industry-standard encryption and access controls. We follow best practices for data handling and can discuss compliance requirements (SOC 2, ISO 27001) as part of Enterprise onboarding." },
+      { q: /onboarding|setup|getting started/i, a: "Getting started with Sim2Real is straightforward: connect your telemetry pipeline, define your task and environment, and begin capturing deployment data. Pilot Optimizer includes self-serve setup; Enterprise includes dedicated onboarding with your team." },
+      { q: /custom integration|api|webhook/i, a: "Enterprise plans include custom integration support and API access. We can build connectors to your existing data warehouse, MLOps platform, or fleet management system. Contact us to discuss your specific requirements." },
+      { q: /team size|how many people|engineers/i, a: "Pilot Optimizer works well for small teams (2-5 engineers) running focused pilots. Enterprise Transfer is designed for larger cross-functional teams with dedicated simulation, controls, and deployment engineers." },
+      { q: /manufacturing|factory|assembly line/i, a: "Sim2Real helps manufacturing teams improve reliability in repetitive but variable workflows -- catching small physical differences (surface wear, part variance, lighting changes) that create expensive downtime in production cells." },
+      { q: /warehouse|logistics|fulfillment|pick and place|bin picking/i, a: "For warehouse and logistics operations, Sim2Real reduces grasp and handling failures in messy environments. We calibrate simulation assumptions against actual clutter, lighting shifts, and object variance before pilot issues compound." },
+      { q: /robotics startup|early stage|seed|series a/i, a: "Robotics startups use Sim2Real to move faster from pilot to production. Instead of rebuilding workflows around repeated field failures, you learn from deployment data and iterate on simulation conditions -- preserving runway and engineering velocity." },
+      { q: /enterprise pilot|proof of concept|poc/i, a: "Enterprise pilots benefit from Sim2Real's structured feedback loop: clear failure classification, repeatable calibration recommendations, and evidence-based go-live criteria. This reduces the risk of pilot programs stalling or failing to scale." },
+      { q: /data privacy|gdpr|data handling/i, a: "Sim2Real processes deployment telemetry in a secure environment with industry-standard encryption and access controls. User data is handled in accordance with our Privacy Policy. We do not share customer data with third parties. Enterprise customers can request data residency and custom retention policies." },
+      { q: /sla|uptime|availability/i, a: "Sim2Real is hosted on reliable cloud infrastructure with monitoring and automated failover. Enterprise plans include SLA commitments for uptime and support response times. Contact sales for specific SLA terms." },
+      { q: /support|help desk|customer success/i, a: "Pilot Optimizer includes email support with weekly reports. Enterprise Transfer includes priority support with faster response times and a dedicated customer success contact. Enterprise customers also get access to our Slack channel for real-time questions." },
       { q: /failure|error|drift|gap/i, a: "Sim-to-real failures typically stem from differences between simulation assumptions and real-world conditions -- like lighting variance, surface friction changes, object clutter, sensor noise, or pose drift. Sim2Real detects these failure patterns, classifies them, and generates updated simulation parameters so you can retrain with more realistic conditions before your next deployment." },
-      { q: /training|retrain|synthetic/i, a: "Sim2Real transforms real-world deployment failures into improved simulation training conditions. When a robot fails in the field, that failure is analyzed and used to generate new synthetic scenarios with updated perturbations -- like adjusted friction, lighting, or clutter -- so your next training run better reflects actual deployment conditions." },
-      { q: /telemetry|sensor|camera|im[au]/i, a: "Sim2Real ingests deployment telemetry including camera feeds, force-torque sensors, IMU data, and task outcome records. This data is compared against what the simulation expected to happen, surfacing the specific conditions that caused performance divergence." },
+      { q: /telemetry|sensor|camera|im[au]|force torque/i, a: "Sim2Real ingests deployment telemetry including camera feeds, force-torque sensors, IMU data, and task outcome records. This data is compared against what the simulation expected to happen, surfacing the specific conditions that caused performance divergence." },
       { q: /pricing|cost|plan|price/i, a: "Sim2Real offers two plans: the Pilot Optimizer at $499/month for up to 3 robots with core failure analytics and baseline simulation recommendations, and Enterprise Transfer starting at $2,500/month for multi-robot fleets, advanced simulation generation, custom integrations, and dedicated onboarding. All plans include a free trial." },
-      { q: /integration|ros|mujoco|omniverse|isaac/i, a: "Sim2Real is designed to work alongside your existing robotics stack. Depending on your plan, integrations can include ROS/ROS2, NVIDIA Isaac Sim, Omniverse, MuJoCo, and custom APIs. Enterprise plans include dedicated onboarding." },
+      { q: /integration|mujoco|omniverse|isaac|unity|unreal/i, a: "Sim2Real is designed to work alongside your existing robotics stack. Depending on your plan, integrations can include ROS/ROS2, NVIDIA Isaac Sim, Omniverse, MuJoCo, and custom APIs. Enterprise plans include dedicated onboarding." },
       { q: /pilot|production|deploy/i, a: "Sim2Real is built for teams running pilot deployments and scaling toward production fleets. It helps you identify which scenarios are most likely to break before they become expensive on-site debugging sessions -- giving your team clear evidence for go-live decisions and shorter iteration cycles." },
-      { q: /privacy|security|gdpr/i, a: "Sim2Real processes deployment telemetry in a secure environment with industry-standard encryption and access controls. User data is handled in accordance with our Privacy Policy. We do not share customer data with third parties." },
-      { q: /demo|trial|start|sign up/i, a: "You can start a free trial of Sim2Real by visiting our signup page. No credit card is required. If you prefer a personalized walkthrough, you can book a demo with our team through the contact page -- we'll tailor it to your robotics stack and deployment environment." }
+      { q: /demo|trial|start|sign up/i, a: "You can start a free trial of Sim2Real by visiting our signup page. No credit card is required. If you prefer a personalized walkthrough, you can book a demo with our team through the contact page -- we'll tailor it to your robotics stack and deployment environment." },
+      { q: /how it works|workflow|process/i, a: "Sim2Real works in four steps: 1) Capture deployment telemetry from your robots. 2) Detect and classify failure causes. 3) Generate updated simulation parameters and synthetic scenarios. 4) Redeploy with evidence and track improvement over time." },
+      { q: /closed feedback loop|feedback loop/i, a: "The closed feedback loop is the core of Sim2Real: real-world failures are captured, analyzed, and translated back into simulation conditions. This means every deployment makes your next training run more realistic, creating a compounding improvement effect." },
+      { q: /domain randomization|perturbation/i, a: "Domain randomization and perturbation are techniques used to make simulation training more robust. Sim2Real automatically suggests which parameters to randomize -- lighting, friction, clutter, pose -- based on actual failure patterns observed in deployment." },
+      { q: /contact sales|talk to sales|sales team/i, a: "You can reach our sales team by clicking Contact Sales in the chat, filling out the contact form on our website, or emailing hello@developer312.com. We typically respond within one business day and can tailor a demo to your specific robotics stack." }
     ];
 
-    function generateAIResponse(userMessage) {
-      const lower = userMessage.toLowerCase();
-      for (const entry of SIM2REAL_KB) {
-        if (entry.q.test(lower)) return entry.a;
-      }
-      return "Thanks for your question. For specific inquiries about sim-to-real transfer, digital twins, platform features, integrations, or pricing, feel free to visit our product and pricing pages, or contact us directly at hello@developer312.com. Our team typically responds within one business day.";
+    // Enhanced /api/chat with conversation state tracking
+    if (request.method === "POST" && request.url === "/api/chat") {
+      const body = await parseBody(request);
+      const userMessage = String(body.message || "").trim();
+      const sessionId = getChatSessionId(body);
+      const state = getChatState(sessionId);
+      const responsePayload = handleChatMessage(userMessage, state);
+      return json(response, 200, { success: true, sessionId, ...responsePayload });
     }
 
-    if (request.method === 'POST' && request.url === '/api/chat') {
-      const body = await parseBody(request);
-      const userMessage = String(body.message || '').trim();
-      if (!userMessage) {
-        return json(response, 400, { error: 'A message is required.' });
+    function handleChatMessage(userMessage, state) {
+      const lower = userMessage.toLowerCase();
+
+      // Quick-reply triggers
+      const isPricing = /pricing|cost|plan|price/i.test(userMessage);
+      const isDemo = /book a demo|schedule demo|demo/i.test(userMessage);
+      const isContact = /contact sales|talk to sales|sales team/i.test(userMessage);
+      const isHowItWorks = /how it works|workflow|process/i.test(userMessage);
+
+      // Handle active flows first
+      if (state.flow === "demo_booking") {
+        return handleDemoBooking(userMessage, state);
       }
-      if (userMessage.length > 2000) {
-        return json(response, 400, { error: 'Message must be 2000 characters or fewer.' });
+      if (state.flow === "contact") {
+        return handleContactFlow(userMessage, state);
       }
-      const responseText = generateAIResponse(userMessage);
-      return json(response, 200, { success: true, response: responseText });
+
+      // Handle explicit quick-reply clicks / intents
+      if (isDemo) {
+        state.flow = "demo_booking";
+        state.step = 0;
+        state.data = {};
+        return { type: "text", text: "Great! I'd love to help you book a demo. What's your name?" };
+      }
+      if (isContact) {
+        state.flow = "contact";
+        state.step = 0;
+        state.data = {};
+        return { type: "text", text: "I'd be happy to connect you with our sales team. What's your name?" };
+      }
+      if (isPricing) {
+        return {
+          type: "options",
+          text: "Sim2Real offers two plans:\n\n**Pilot Optimizer** — $499/month\n• Up to 3 robots\n• Core failure analytics\n• Baseline simulation recommendations\n• Weekly reports & email support\n\n**Enterprise Transfer** — Starting at $2,500/month\n• Multi-robot support\n• Advanced simulation generation\n• Custom integrations\n• Priority support & dedicated onboarding\n\nAll plans include a free trial. Which plan sounds right for you?",
+          options: ["📅 Book a Demo", "📞 Contact Sales", "🚀 How it works"]
+        };
+      }
+      if (isHowItWorks) {
+        return {
+          type: "options",
+          text: "Sim2Real works in four steps:\n\n1️⃣ **Capture deployment telemetry** — camera, force-torque, IMU, and task outcomes.\n2️⃣ **Detect failure causes** — classify where simulation diverged from reality.\n3️⃣ **Improve future training** — generate updated simulation parameters and synthetic scenarios.\n4️⃣ **Redeploy with evidence** — track improvement and prioritize the next calibration pass.\n\nWant to see how this fits your use case?",
+          options: ["📅 Book a Demo", "💰 Pricing", "📞 Contact Sales"]
+        };
+      }
+
+      // Greeting / welcome
+      if (lower === "hi" || lower === "hello" || lower === "hey" || lower === "start" || lower === "help") {
+        return {
+          type: "options",
+          text: "Hi, I'm your Sim2Real guide. I can answer questions about our platform, help you book a demo, or connect you with our team. What brings you here today?",
+          options: ["💰 Pricing", "📅 Book a Demo", "🚀 How it works", "📞 Contact Sales"]
+        };
+      }
+
+      // Fallback to KB Q&A
+      for (const entry of SIM2REAL_KB) {
+        if (entry.q.test(lower)) {
+          return { type: "text", text: entry.a, options: ["💰 Pricing", "📅 Book a Demo", "🚀 How it works", "📞 Contact Sales"] };
+        }
+      }
+
+      return {
+        type: "options",
+        text: "Thanks for your question. For specific inquiries about sim-to-real transfer, digital twins, platform features, integrations, or pricing, feel free to visit our product and pricing pages, or contact us directly at hello@developer312.com. Our team typically responds within one business day.",
+        options: ["💰 Pricing", "📅 Book a Demo", "📞 Contact Sales"]
+      };
+    }
+
+    function handleDemoBooking(userMessage, state) {
+      const steps = ["name", "email", "company", "date"];
+      const currentField = steps[state.step];
+
+      if (currentField === "name") {
+        state.data.name = userMessage;
+        state.step = 1;
+        return { type: "text", text: "Nice to meet you, " + userMessage + "! What's your work email?" };
+      }
+      if (currentField === "email") {
+        if (!isValidEmail(userMessage)) {
+          return { type: "text", text: "That doesn't look like a valid email. Please enter a valid work email address." };
+        }
+        state.data.email = userMessage;
+        state.step = 2;
+        return { type: "text", text: "What company are you with?" };
+      }
+      if (currentField === "company") {
+        state.data.company = userMessage;
+        state.step = 3;
+        return { type: "text", text: "What date works best for your demo? (e.g., 'Next Tuesday' or 'May 15')" };
+      }
+      if (currentField === "date") {
+        state.data.date = userMessage;
+        // Submit lead
+        try {
+          const leads = store.read("leads", []);
+          leads.push({
+            id: crypto.randomUUID(),
+            name: String(state.data.name || "").trim().slice(0, 255),
+            email: String(state.data.email || "").trim().slice(0, 255),
+            company: String(state.data.company || "").trim().slice(0, 255),
+            source: "chat-widget-demo",
+            message: `Demo request for ${userMessage}`,
+            createdAt: new Date().toISOString()
+          });
+          store.write("leads", leads);
+        } catch (e) {
+          log("error", "Failed to store demo lead: " + e.message);
+        }
+        state.flow = "idle";
+        state.step = 0;
+        return {
+          type: "options",
+          text: "Perfect! I've submitted your demo request. Our team will reach out to you at " + state.data.email + " within one business day to confirm the date.\n\nIn the meantime, is there anything else I can help with?",
+          options: ["💰 Pricing", "🚀 How it works", "📞 Contact Sales"]
+        };
+      }
+      return { type: "text", text: "I'm not sure I understood. Could you try rephrasing that?" };
+    }
+
+    function handleContactFlow(userMessage, state) {
+      const steps = ["name", "email", "message"];
+      const currentField = steps[state.step];
+
+      if (currentField === "name") {
+        state.data.name = userMessage;
+        state.step = 1;
+        return { type: "text", text: "Thanks, " + userMessage + "! What's your work email?" };
+      }
+      if (currentField === "email") {
+        if (!isValidEmail(userMessage)) {
+          return { type: "text", text: "That doesn't look like a valid email. Please enter a valid work email address." };
+        }
+        state.data.email = userMessage;
+        state.step = 2;
+        return { type: "text", text: "How can our sales team help you? Please share a brief message." };
+      }
+      if (currentField === "message") {
+        state.data.message = userMessage;
+        // Submit lead
+        try {
+          const leads = store.read("leads", []);
+          leads.push({
+            id: crypto.randomUUID(),
+            name: String(state.data.name || "").trim().slice(0, 255),
+            email: String(state.data.email || "").trim().slice(0, 255),
+            company: String(state.data.company || "").trim().slice(0, 255),
+            source: "chat-widget-contact",
+            message: String(userMessage || "").trim().slice(0, 10000),
+            createdAt: new Date().toISOString()
+          });
+          store.write("leads", leads);
+        } catch (e) {
+          log("error", "Failed to store contact lead: " + e.message);
+        }
+        state.flow = "idle";
+        state.step = 0;
+        return {
+          type: "options",
+          text: "Message sent! Our sales team will follow up with you at " + state.data.email + " within one business day.\n\nIs there anything else I can help with?",
+          options: ["💰 Pricing", "📅 Book a Demo", "🚀 How it works"]
+        };
+      }
+      return { type: "text", text: "I'm not sure I understood. Could you try rephrasing that?" };
     }
 
     // Contact form
@@ -598,6 +802,28 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
       });
       store.write("contacts", contacts);
       return json(response, 201, { ok: true });
+    }
+
+    if (request.method === "POST" && request.url === "/api/leads") {
+      const body = await parseBody(request);
+      if (!body.name || !body.email) {
+        return json(response, 400, { error: "name and email are required" });
+      }
+      if (!isValidEmail(body.email)) {
+        return json(response, 400, { error: "A valid email address is required." });
+      }
+      const leads = store.read("leads", []);
+      leads.push({
+        id: crypto.randomUUID(),
+        name: String(body.name).trim().slice(0, 255),
+        email: String(body.email).trim().slice(0, 255),
+        company: String(body.company || "").trim().slice(0, 255),
+        source: String(body.source || "chat-widget").trim().slice(0, 100),
+        message: String(body.message || "").trim().slice(0, 10000),
+        createdAt: new Date().toISOString()
+      });
+      store.write("leads", leads);
+      return json(response, 201, { ok: true, leadId: leads[leads.length - 1].id });
     }
 
     // Signup

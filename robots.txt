@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sim2real.dev/sitemap.xml
+Sitemap: https://sim2real.com/sitemap.xml

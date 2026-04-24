@@ -511,11 +511,58 @@
     });
   }
 
+  function initHeroVideo() {
+    const wrapper = document.querySelector(".hero-video-wrapper");
+    if (!wrapper) return;
+    const video = wrapper.querySelector(".hero-video");
+    const fallback = wrapper.querySelector(".hero-video-fallback");
+    if (!video || !fallback) return;
+
+    function hideFallback() {
+      fallback.style.display = "none";
+    }
+
+    function showFallback() {
+      fallback.style.display = "";
+    }
+
+    // Try to play the video immediately
+    video.play().then(() => {
+      // Autoplay succeeded (muted) — hide fallback
+      hideFallback();
+    }).catch(() => {
+      // Autoplay blocked — keep fallback visible as click-to-play
+      showFallback();
+    });
+
+    // Also hide on playing event (covers race conditions)
+    video.addEventListener("playing", hideFallback);
+
+    // If video errors out, show fallback
+    video.addEventListener("error", showFallback);
+
+    // Click fallback to play video (unmuted)
+    fallback.addEventListener("click", () => {
+      video.muted = false;
+      video.play().then(() => {
+        hideFallback();
+      }).catch(() => {
+        // If unmuted play blocked, fall back to muted
+        video.muted = true;
+        video.play().then(hideFallback).catch(() => {});
+      });
+    });
+
+    // Make fallback look clickable
+    fallback.style.cursor = "pointer";
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
     initMobileNav();
     initForms();
     initStripePlaceholders();
+    initHeroVideo();
     hydrateBillingPage();
     initLogoutButtons();
   });
