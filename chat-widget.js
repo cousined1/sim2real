@@ -7,6 +7,7 @@
   let isOpen = false;
   let messages = [];
   let sessionId = null;
+  let chatState = { flow: 'idle', step: 0, data: {} };
 
   const WELCOME = "Hi, I'm your Sim2Real guide. I can answer questions about our platform, help you book a demo, or connect you with our team. What brings you here today?";
   const QUICK_REPLIES = ["💰 Pricing", "📅 Book a Demo", "🚀 How it works", "📞 Contact Sales"];
@@ -330,12 +331,16 @@
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text, sessionId: getSessionId() }),
+          body: JSON.stringify({ message: text, sessionId: getSessionId(), state: chatState }),
           signal: AbortSignal.timeout(15000)
         });
         const data = await res.json();
         hideTyping();
         if (data.success) {
+          // Update client-side state from server response
+          if (data.state) {
+            chatState = data.state;
+          }
           if (data.type === 'options') {
             addMessage('bot', data.text || data.response || '', data.options || data.quickReplies);
           } else {
