@@ -619,11 +619,11 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
     function handleChatMessage(userMessage, state) {
       const lower = userMessage.toLowerCase();
 
-      // Quick-reply triggers
-      const isPricing = /pricing|cost|plan|price/i.test(userMessage);
-      const isDemo = /book a demo|schedule demo|demo/i.test(userMessage);
-      const isContact = /contact sales|talk to sales|sales team/i.test(userMessage);
-      const isHowItWorks = /how it works|workflow|process/i.test(userMessage);
+      // Quick-reply triggers (only when NOT in an active flow)
+      const isPricing = !state.flow && /pricing|cost|plan|price/i.test(userMessage);
+      const isDemo = !state.flow && /\bdemo\b/i.test(userMessage);
+      const isContact = !state.flow && /contact sales|talk to sales|sales team/i.test(userMessage);
+      const isHowItWorks = !state.flow && /how it works|workflow|process/i.test(userMessage);
 
       // Handle active flows first
       if (state.flow === "demo_booking") {
