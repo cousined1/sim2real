@@ -594,16 +594,6 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
       { q: /contact sales|talk to sales|sales team/i, a: "You can reach our sales team by clicking Contact Sales in the chat, filling out the contact form on our website, or emailing hello@developer312.com. We typically respond within one business day and can tailor a demo to your specific robotics stack." }
     ];
 
-    // Debug endpoint to check store
-    if (request.url === "/api/debug/store") {
-      const sessions = store.read("chat_sessions", {});
-      const sessionData = sessions[request.headers["x-session-id"] || ""];
-      if (sessionData) {
-        return json(response, 200, { session: sessionData });
-      }
-      return json(response, 200, { sessions: Object.keys(sessions).length, keys: Object.keys(sessions).slice(0, 5), sample: Object.values(sessions)[0] });
-    }
-
     // Enhanced /api/chat with conversation state tracking
     if (request.method === "POST" && request.url === "/api/chat") {
       const body = await parseBody(request);
