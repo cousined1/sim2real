@@ -622,7 +622,7 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
       // Quick-reply triggers (only when NOT in an active flow)
       const inFlow = state.flow && state.flow !== "idle";
       const isPricing = !inFlow && /pricing|cost|plan|price/i.test(userMessage);
-      const isDemo = !inFlow && /\bdemo\b/i.test(userMessage);
+      const isDemo = !inFlow && /(?:^|[\s\p{Emoji}])(?:book\s+a\s+)?demo(?:\s|$|[\p{Emoji}])/iu.test(userMessage);
       const isContact = !inFlow && /contact sales|talk to sales|sales team/i.test(userMessage);
       const isHowItWorks = !inFlow && /how it works|workflow|process/i.test(userMessage);
 
