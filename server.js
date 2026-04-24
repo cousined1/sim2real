@@ -543,7 +543,7 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
 
     // Conversation state management for salesbot chat
     const CHAT_SESSION_TTL_MS = 30 * 60 * 1000; // 30 minutes
-    const chatSessions = new Map();
+    const CHAT_SESSION_KEY = "chat_sessions";
 
     function getChatSessionId(body) {
       return String(body.sessionId || "anon-" + Math.random().toString(36).slice(2));
@@ -551,24 +551,37 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
 
     function getChatState(sessionId) {
       const now = Date.now();
-      // Prune stale sessions periodically
-      for (const [sid, sess] of chatSessions) {
-        if (now - sess.updatedAt > CHAT_SESSION_TTL_MS) chatSessions.delete(sid);
+      const sessions = store.read(CHAT_SESSION_KEY, {});
+      // Prune stale sessions
+      for (const sid of Object.keys(sessions)) {
+        if (now - sessions[sid].updatedAt > CHAT_SESSION_TTL_MS) {
+          delete sessions[sid];
+        }
       }
-      if (!chatSessions.has(sessionId)) {
-        chatSessions.set(sessionId, {
+      if (!sessions[sessionId]) {
+        sessions[sessionId] = {
           flow: "idle",
           step: 0,
           data: {},
           updatedAt: now
-        });
+        };
+        store.write(CHAT_SESSION_KEY, sessions);
       }
-      return chatSessions.get(sessionId);
+      return sessions[sessionId];
     }
 
     function updateChatState(sessionId, updates) {
-      const state = getChatState(sessionId);
-      Object.assign(state, updates, { updatedAt: Date.now() });
+      const sessions = store.read(CHAT_SESSION_KEY, {});
+      if (!sessions[sessionId]) {
+        sessions[sessionId] = {
+          flow: "idle",
+          step: 0,
+          data: {},
+          updatedAt: Date.now()
+        };
+      }
+      Object.assign(sessions[sessionId], updates, { updatedAt: Date.now() });
+      store.write(CHAT_SESSION_KEY, sessions);
     }
 
     const SIM2REAL_KB = [
