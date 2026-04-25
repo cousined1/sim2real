@@ -532,7 +532,7 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
 
     // CSRF validation
     const stateChangingMethods = ["POST"];
-    const csrfExemptRoutes = ["/api/auth/login", "/api/auth/signup", "/api/auth/logout", "/api/webhooks/stripe", "/api/chat"];
+    const csrfExemptRoutes = ["/api/auth/login", "/api/auth/signup", "/api/auth/logout", "/api/webhooks/stripe", "/api/chat", "/api/billing/checkout", "/api/billing/portal"];
     if (stateChangingMethods.includes(request.method) && !csrfExemptRoutes.includes(url)) {
       const cookies = parseCookies(request.headers.cookie);
       const csrfHeader = request.headers["x-csrf-token"] || "";
