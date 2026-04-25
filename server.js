@@ -356,11 +356,12 @@ async function ensureStripeCustomer({ user, storeUsers, stripe }) {
 async function createStripeCheckoutSession({ plan, origin, stripe, customerId, customerEmail }) {
   const secret = stripe.secretKey || process.env.STRIPE_SECRET_KEY;
   const pilotPrice = stripe.pilotPriceId || process.env.STRIPE_PRICE_ID_PILOT;
+  const enterprisePrice = stripe.enterprisePriceId || process.env.STRIPE_PRICE_ID_ENTERPRISE;
   const fetchImpl = stripe.fetchImpl || fetch;
   if (!secret || !pilotPrice) {
     return { ok: false, status: 503, payload: { error: "Stripe is not configured yet. Add STRIPE_SECRET_KEY and STRIPE_PRICE_ID_PILOT to enable checkout." } };
   }
-  const priceId = plan === "pilot" ? pilotPrice : null;
+  const priceId = plan === "pilot" ? pilotPrice : (plan === "enterprise" ? enterprisePrice : null);
   if (!priceId) {
     return { ok: false, status: 400, payload: { error: "Unsupported plan for self-serve checkout." } };
   }
@@ -370,6 +371,9 @@ async function createStripeCheckoutSession({ plan, origin, stripe, customerId, c
   params.set("cancel_url", `${origin}/checkout-cancelled.html`);
   params.set("line_items[0][price]", priceId);
   params.set("line_items[0][quantity]", "1");
+  if (plan === "pilot") {
+    params.set("subscription_data[trial_period_days]", "14");
+  }
   if (customerId) params.set("customer", customerId);
   else if (customerEmail) params.set("customer_email", customerEmail);
 
@@ -1306,6 +1310,7 @@ if (require.main === module) {
   const stripe = {
     secretKey: process.env.STRIPE_SECRET_KEY,
     pilotPriceId: process.env.STRIPE_PRICE_ID_PILOT,
+    enterprisePriceId: process.env.STRIPE_PRICE_ID_ENTERPRISE,
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET
   };
 
