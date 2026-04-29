@@ -852,6 +852,22 @@ function createAppServer({ rootDir, dataDir, sessionSecret, stripe = {}, allowed
       };
       users.push(user);
       store.write("users", users);
+
+      // Fire n8n webhook for welcome email + Telegram alert (non-blocking)
+      const webhookPayload = {
+        name: trimmedName,
+        email: body.email,
+        company: trimmedCompany,
+        product: "sim2real",
+        source: "sim-2-real.com",
+        plan: selectedPlan
+      };
+      fetch("https://embrooks.org/webhook/saas-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(webhookPayload)
+      }).catch(() => {}); // fire-and-forget
+
       return json(response, 201, { ok: true, user: sanitizeUser(user) });
     }
 
