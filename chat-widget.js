@@ -62,8 +62,9 @@
         bottom: 92px;
         right: 24px;
         width: 400px;
-        max-height: calc(100vh - 120px);
+        max-width: calc(100vw - 48px);
         height: 560px;
+        max-height: calc(100vh - 120px);
         background: ${panelBg};
         color: ${textColor};
         border-radius: 18px;
