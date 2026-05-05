@@ -63,7 +63,7 @@
         right: 24px;
         width: 400px;
         max-width: calc(100vw - 48px);
-        height: 560px;
+        height: 520px;
         max-height: calc(100vh - 120px);
         background: ${panelBg};
         color: ${textColor};
@@ -92,16 +92,22 @@
       .s2r-chat-header h3 { margin: 0; font-size: 15px; font-weight: 700; }
       .s2r-chat-header p { margin: 2px 0 0; font-size: 11px; opacity: 0.88; }
       .s2r-chat-close {
-        background: rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.25);
         border: none;
         color: #fff;
         cursor: pointer;
-        font-size: 17px;
-        padding: 4px 10px;
-        border-radius: 6px;
+        font-size: 20px;
+        padding: 6px 12px;
+        border-radius: 8px;
         line-height: 1;
+        min-width: 36px;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
       }
-      .s2r-chat-close:hover { background: rgba(255,255,255,0.3); }
+      .s2r-chat-close:hover { background: rgba(255,255,255,0.4); }
       .s2r-chat-body {
         flex: 1;
         overflow-y: auto;
@@ -218,8 +224,11 @@
       .s2r-chat-input button:disabled { opacity: 0.45; cursor: not-allowed; }
       .s2r-chat-input button svg { width: 17px; height: 17px; fill: currentColor; }
       @media (max-width: 440px) {
-        .s2r-chat-panel { width: calc(100vw - 32px); right: 16px; left: 16px; bottom: 88px; height: 520px; }
+        .s2r-chat-panel { width: calc(100vw - 32px); right: 16px; left: 16px; bottom: 88px; height: calc(100vh - 140px); max-height: 480px; }
         .s2r-chat-toggle { right: 16px; bottom: 16px; }
+      }
+      @media (max-height: 640px) {
+        .s2r-chat-panel { height: calc(100vh - 100px); bottom: 80px; }
       }
     `;
     document.head.appendChild(styles);
