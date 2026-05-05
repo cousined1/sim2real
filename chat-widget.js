@@ -62,6 +62,7 @@
         bottom: 92px;
         right: 24px;
         width: 400px;
+        max-height: calc(100vh - 120px);
         height: 560px;
         background: ${panelBg};
         color: ${textColor};
