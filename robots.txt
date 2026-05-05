@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap reference
-Sitemap: https://sim2real.com/sitemap.xml
+Sitemap: https://sim-2-real.com/sitemap.xml
 
 # Disallow auth-only paths
 Disallow: /billing

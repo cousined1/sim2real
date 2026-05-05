@@ -2,25 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Public pages -->
   <url>
-    <loc>https://sim2real.com/</loc>
+    <loc>https://sim-2-real.com/</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sim2real.com/product</loc>
+    <loc>https://sim-2-real.com/product</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sim2real.com/pricing</loc>
+    <loc>https://sim-2-real.com/pricing</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sim2real.com/contact</loc>
+    <loc>https://sim-2-real.com/contact</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -28,19 +28,19 @@
 
   <!-- Auth pages -->
   <url>
-    <loc>https://sim2real.com/signup</loc>
+    <loc>https://sim-2-real.com/signup</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sim2real.com/login</loc>
+    <loc>https://sim-2-real.com/login</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://sim2real.com/forgot-password</loc>
+    <loc>https://sim-2-real.com/forgot-password</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -48,7 +48,7 @@
 
   <!-- App pages (authenticated) -->
   <url>
-    <loc>https://sim2real.com/billing</loc>
+    <loc>https://sim-2-real.com/billing</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -56,13 +56,13 @@
 
   <!-- Legal pages -->
   <url>
-    <loc>https://sim2real.com/terms</loc>
+    <loc>https://sim-2-real.com/terms</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://sim2real.com/privacy</loc>
+    <loc>https://sim-2-real.com/privacy</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
