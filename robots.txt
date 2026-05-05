@@ -1,14 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin/
 
-# Sitemap reference
 Sitemap: https://sim-2-real.com/sitemap.xml
-
-# Disallow auth-only paths
-Disallow: /billing
-Disallow: /login
-Disallow: /signup
-Disallow: /forgot-password
-
-# Crawl delay for rate limiting
-Crawl-delay: 1
